@@ -53,6 +53,7 @@
         android:gravity="center"
         android:textSize="25sp"
         android:inputType="textNoSuggestions"
+        android:textColor="@color/colorAccent"
         android:text="@string/idle_status" />
 
 </LinearLayout>

@@ -19,6 +19,7 @@ import com.simplegeek.morseandroid.signals.SignalController;
 import com.simplegeek.morseandroid.signals.TorchController;
 import com.simplegeek.morseandroid.util.Constants;
 
+import java.time.Instant;
 import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -68,22 +69,22 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void playMsg(View view) {
-        // Prepping
-        beginMsg();
-
         new Thread() {
             @Override
             public void run() {
+                // Prepping
+                beginMsg();
+                
                 // Parsing the text into a list of Word objects to represent the message
                 List<Word> msg = parser.getMessage(msgTxt.getText().toString());
 
                 // Looping over the message, and playing each word with the signal controller
                 msg.forEach(w -> w.playWord(signalController));
+
+                // Cleaning up
+                endMsg();
             }
         }.start();
-
-        // Cleaning up
-        endMsg();
     }
 
     @Override
@@ -105,8 +106,11 @@ public class MainActivity extends AppCompatActivity {
     private void beginMsg() {
         // Set status
         runOnUiThread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
+                Instant now = Instant.now();
+                System.out.println("Changing to busy now: " + now.toString());
                 statusMsg.setText(R.string.busy_status);
             }
         });
@@ -118,8 +122,11 @@ public class MainActivity extends AppCompatActivity {
     private void endMsg() {
         // Set status
         runOnUiThread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void run() {
+                Instant now = Instant.now();
+                System.out.println("Changing to idle now: " + now.toString());
                 statusMsg.setText(R.string.idle_status);
             }
         });
