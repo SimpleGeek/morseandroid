@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 // Prepping
                 beginMsg();
-                
+
                 // Parsing the text into a list of Word objects to represent the message
                 List<Word> msg = parser.getMessage(msgTxt.getText().toString());
 
@@ -105,14 +105,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void beginMsg() {
         // Set status
-        runOnUiThread(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void run() {
-                Instant now = Instant.now();
-                System.out.println("Changing to busy now: " + now.toString());
-                statusMsg.setText(R.string.busy_status);
-            }
+        runOnUiThread(() -> {
+            statusMsg.setText(R.string.busy_status);
         });
     }
 
@@ -121,14 +115,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void endMsg() {
         // Set status
-        runOnUiThread(new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void run() {
-                Instant now = Instant.now();
-                System.out.println("Changing to idle now: " + now.toString());
-                statusMsg.setText(R.string.idle_status);
-            }
+        runOnUiThread(() -> {
+            statusMsg.setText(R.string.idle_status);
         });
 
         // Catch-all to make sure the signal controller is off at this point
