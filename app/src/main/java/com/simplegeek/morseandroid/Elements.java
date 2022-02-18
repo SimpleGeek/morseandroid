@@ -2,8 +2,6 @@ package com.simplegeek.morseandroid;
 
 public class Elements {
 
-    private static final double BASE_VALUE = 0.25;
-
     // A dash "-"
     public static final Element DASH = new Element(3, true, false);
     // A dot "."

@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.simplegeek.morseandroid.parser.Parser;
 import com.simplegeek.morseandroid.signals.SignalController;
 import com.simplegeek.morseandroid.signals.TorchController;
+import com.simplegeek.morseandroid.util.Constants;
 
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button playMsgBtn;
     private EditText msgTxt;
+    private TextView statusMsg;
     private SignalController signalController;
     private Parser parser = new Parser();
 
@@ -46,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         // Registering the EditText
         msgTxt = findViewById(R.id.msg);
 
+        // Registering the TextView
+        statusMsg = findViewById(R.id.status_msg);
+        statusMsg.setText(Constants.IDLE_STATUS_MSG);
+
         // Initializing camera manager
         cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
 
@@ -62,14 +69,17 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void playMsg(View view) {
+        // Prepping
+        beginMsg();
+
         // Parsing the text into a list of Word objects to represent the message
         List<Word> msg = parser.getMessage(msgTxt.getText().toString());
 
         // Looping over the message, and playing each word with the signal controller
         msg.forEach(w -> w.playWord(signalController));
 
-        // Catch-all to make sure the signal controller is off at this point
-        signalController.turnOff();
+        // Cleaning up
+        endMsg();
     }
 
     @Override
@@ -83,6 +93,25 @@ public class MainActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Method to prep for playing message
+     */
+    private void beginMsg() {
+        // Set status
+        statusMsg.setText(Constants.BUSY_STATUS_MSG);
+    }
+
+    /**
+     * Method to end playing message
+     */
+    private void endMsg() {
+        // Set status
+        statusMsg.setText(Constants.IDLE_STATUS_MSG);
+
+        // Catch-all to make sure the signal controller is off at this point
+        signalController.turnOff();
     }
 
 }
