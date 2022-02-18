@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
         msgTxt = findViewById(R.id.msg);
 
         // Registering the TextView
-        statusMsg = findViewById(R.id.status_msg);
-        statusMsg.setText(Constants.IDLE_STATUS_MSG);
+        statusMsg = (TextView) findViewById(R.id.status_msg);
 
         // Initializing camera manager
         cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
@@ -72,11 +71,16 @@ public class MainActivity extends AppCompatActivity {
         // Prepping
         beginMsg();
 
-        // Parsing the text into a list of Word objects to represent the message
-        List<Word> msg = parser.getMessage(msgTxt.getText().toString());
+        new Thread() {
+            @Override
+            public void run() {
+                // Parsing the text into a list of Word objects to represent the message
+                List<Word> msg = parser.getMessage(msgTxt.getText().toString());
 
-        // Looping over the message, and playing each word with the signal controller
-        msg.forEach(w -> w.playWord(signalController));
+                // Looping over the message, and playing each word with the signal controller
+                msg.forEach(w -> w.playWord(signalController));
+            }
+        }.start();
 
         // Cleaning up
         endMsg();
@@ -100,7 +104,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void beginMsg() {
         // Set status
-        statusMsg.setText(Constants.BUSY_STATUS_MSG);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                statusMsg.setText(R.string.busy_status);
+            }
+        });
     }
 
     /**
@@ -108,7 +117,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void endMsg() {
         // Set status
-        statusMsg.setText(Constants.IDLE_STATUS_MSG);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                statusMsg.setText(R.string.idle_status);
+            }
+        });
 
         // Catch-all to make sure the signal controller is off at this point
         signalController.turnOff();

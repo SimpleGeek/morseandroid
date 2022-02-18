@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MorseAndroid</string>
+    <string name="idle_status">Ready</string>
+    <string name="busy_status">Playing message</string>
 </resources>
