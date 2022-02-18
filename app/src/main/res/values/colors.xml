@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- A possible theme
+    <color name="colorPrimary">#848c8e</color>
+    <color name="colorPrimaryDark">#435058</color>
+    <color name="colorBackground">#bfb7b6</color> a darker gray, not sure what to do with it
+    <color name="colorAccent">#818487</color>
+    <color name="colorBackground">#f1f2ee</color>
+    <color name="colorText">#090b0c</color>
+    -->
+    <!-- Blues and grays
+    <color name="colorPrimary">#3e78b2</color>
+    <color name="colorPrimaryDark">#004ba8</color>
+    <color name="colorAccent">#24272b</color>
+    <color name="colorBackground">#4a525a</color>
+    <color name="colorText">#07070a</color>
+    -->
+    <color name="colorPrimary">#fffcf2</color>
+    <color name="colorPrimaryDark">#ccc5b9</color>
+    <color name="colorAccent">#eb5e28</color>
+    <color name="colorBackground">#403d39</color>
+    <color name="colorText">#252422</color>
+</resources>
